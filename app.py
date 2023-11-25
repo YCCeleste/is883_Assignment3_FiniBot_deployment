@@ -4,7 +4,7 @@ import openai
 import os
 from io import StringIO
 import pandas as pd
-
+import streamlit as st
 
 
 # Make sure to add your OpenAI API key in the advanced settings of streamlit's deployment
@@ -444,6 +444,45 @@ Here are some guides for working with Streamlit's community cloud:
 
 
 # UX goes here. You will have to encorporate some variables from the code above and make some tweaks.
+def load_data(file):
+    data = pd.read_excel(file)  # Assuming it's an Excel file, adjust as needed
+    return data
+
+def display_spreadsheet(data):
+    st.dataframe(data)
+
+def finibot_analysis(data, client_type):
+    # Add your FiniBot analysis and recommendation logic here
+    # For simplicity, let's assume the analysis is a simple message
+    if client_type == "Novice":
+        result = "FiniBot recommends focusing on building an emergency fund first."
+    else:
+        result = "FiniBot suggests optimizing your debt allocation and investing strategy."
+
+    return result
+
+def main():
+    st.header("Welcome to FiniBot!")
+
+    st.markdown("Please upload your financial spreadsheet using the button below.")
+    template_link = "[Spreadsheet Template](insert_template_link_here)"
+    st.markdown(f"Download the template spreadsheet here: {template_link}")
+
+    uploaded_file = st.file_uploader("Upload spreadsheet", type=["csv", "xlsx"])
+
+    if uploaded_file is not None:
+        client_type = st.radio("Select your client type:", ["Novice", "Expert"])
+
+        # Load and display the spreadsheet
+        data = load_data(uploaded_file)
+        display_spreadsheet(data)
+
+        # FiniBot analysis and recommendation
+        result = finibot_analysis(data, client_type)
+        st.markdown(f"**FiniBot's Recommendation:**\n{result}")
+
+if __name__ == "__main__":
+    main()
 
 
 
