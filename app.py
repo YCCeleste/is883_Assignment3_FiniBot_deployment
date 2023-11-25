@@ -481,8 +481,6 @@ def main():
         result = finibot_analysis(data, client_type)
         st.markdown(f"**FiniBot's Recommendation:**\n{result}")
 
+# Run the app
 if __name__ == "__main__":
     main()
-
-
-
